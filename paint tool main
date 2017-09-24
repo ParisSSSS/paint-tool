@@ -1,0 +1,106 @@
+package MyPaintApp;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class PaintAppMain extends JFrame{
+	
+	JButton brushBtn, lineBtn, ellipseBtn, recBtn, fillBtn, strokeBtn;
+	
+	// what you use to monitor the shapes
+	int currntAction = 1;
+	
+	// default stroke and fill colors
+	
+	Color strokeColor = Color.BLACK, fillColor = Color.BLACK;
+	
+	public static void main(String [] args) {
+		
+		new PaintAppMain();
+		
+	}
+	
+	public PaintAppMain() {
+		
+		this.setSize(500, 500);
+		this.setTitle("My Paint App");
+		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel BtnPanel = new JPanel();
+		
+		Box theBox = Box.createHorizontalBox();
+		brushBtn, lineBtn, ellipseBtn, recBtn, fillBtn, strokeBtn;
+		
+		brushBtn = aButtons("./src/brush.png", 1);
+		lineBtn = aButtons("./src/brush.png", 2);
+		ellipseBtn = aButtons("./src/brush.png", 3);
+		recBtn = aButtons("./src/brush.png", 4);
+		
+		strokeBtn = aButtons("./src/brush.png", true);
+		fillBtn = aButtons("./src/brush.png", false);
+		
+		theBox.add(brushBtn);
+		theBox.add(lineBtn);
+		theBox.add(ellipseBtn);
+		theBox.add(recBtn);
+		theBox.add(strokeBtn);
+		theBox.add(fillBtn);
+		
+		BtnPanel.add(theBox);
+		
+		this.add(BtnPanel, BorderLayout.NORTH);
+		
+		this.add(new DrawingBoard(), BorderLayout.CENTER);
+		
+		this.setVisible(true);
+		
+	}
+	
+	public JButton aButton(String iconFile, final int actionNum) {
+		
+		JButton theBtn = new JButton();
+		Icon btnIcon = new ImageIcon(iconFile);
+		theBtn.setIcon(btnIcon);
+		
+		theBtn.addActionListener(new ActionListener() { 
+			
+			public void actionPerformed(ActionEvent e) {
+				int currentAction = actionNum;
+			}
+			
+		});
+		return theBtn;
+	}
+	public JButton aColorButton(String iconFile, final int actionNum, final boolean stroke) {
+		
+		JButton theBtn = new JButton();
+		Icon btnIcon = new ImageIcon(iconFile);
+		theBtn.setIcon(btnIcon);
+		
+		theBtn.addActionListener(new ActionListener() { 
+			
+			public void actionPerformed(ActionEvent e) {
+				if (stroke) {
+					strokeColor = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
+				}
+				else {
+					fillColor = JColorChooser.showDialog(null, "Pick a fill", Color.BLACK);
+				}
+			}
+			
+		});
+		return theBtn;
+	}
+}
